@@ -20,7 +20,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            url "https://raw.githubusercontent.com/damonxiao/MyWidgetDemo/tree/master/widgetlibs"
+            url "https://raw.githubusercontent.com/damonxiao/MyWidgetDemo/master"
         }
     }
 }
