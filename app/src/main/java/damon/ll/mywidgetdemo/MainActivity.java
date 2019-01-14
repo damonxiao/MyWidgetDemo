@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         testCircleProgressView();
+        CircleProgressView circleProgressView = findViewById(R.id.circle_progress_in_xml);
+        circleProgressView.showProgress(null);
     }
 
     private void testCircleProgressView() {

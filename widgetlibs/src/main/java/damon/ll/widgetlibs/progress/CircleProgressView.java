@@ -1,15 +1,19 @@
 package damon.ll.widgetlibs.progress;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import damon.ll.widgetlibs.R;
 
 /**
  * xiaofang
@@ -41,14 +45,29 @@ public class CircleProgressView extends FrameLayout {
     public CircleProgressView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
+        if(attrs != null) {
+            initStyleAttrs(context, attrs);
+        }
     }
 
     private void init(Context context) {
         mContext = context;
         mProgressView = new ImageView(mContext);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mProgressView.setLayoutParams(layoutParams);
         addView(mProgressView);
+    }
+
+    private void initStyleAttrs(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressView);
+        mProgressTotal = typedArray.getInt(R.styleable.CircleProgressView_progress_total, 1000);
+        mProgressTotalTime = typedArray.getInt(R.styleable.CircleProgressView_progress_total_time, 1000);
+        setProgress(mProgressTotalTime, mProgressTotal);
+        int progressImageResource = typedArray.getResourceId(R.styleable.CircleProgressView_progress_image_src, R.drawable.circle_progress_view_progress_def);
+        setProgressImageResource(progressImageResource);
+
+        int backgroundImageResource = typedArray.getResourceId(R.styleable.CircleProgressView_progress_background, R.drawable.circle_progress_view_bg_def);
+        setProgressBackgroundResource(backgroundImageResource);
     }
 
     public void setProgress(final long progressTotalTime, final int progressTotal) {
@@ -107,6 +126,7 @@ public class CircleProgressView extends FrameLayout {
             public void onAnimationRepeat(Animation animation) {
             }
         });
+        rotate.setInterpolator(new LinearInterpolator());
         mProgressView.startAnimation(rotate);
     }
 
