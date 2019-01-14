@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
@@ -115,4 +116,60 @@ public class CircleProgressView extends FrameLayout {
         void onFinish();
     }
 
+
+    /**
+     * If use Builder should not declare {@link #CircleProgressView(Context)} in a layout xml file.
+     */
+    public static class Builder {
+        private ProgressViewParams mParams;
+        private Context mContext;
+
+        public Builder(Context context) {
+            this.mContext = context;
+            mParams = new ProgressViewParams();
+        }
+
+        public Builder setProgress(final long progressTotalTime, final int progressTotal) {
+            mParams.progressTotalTime = progressTotalTime;
+            mParams.progressTotal = progressTotal;
+            return this;
+        }
+
+        public Builder setProgressImageResource(int resourceId) {
+            mParams.progressImageResource = resourceId;
+            return this;
+        }
+
+        public Builder setProgressBackgroundResource(int resourceId) {
+            mParams.progressBackgroundResource = resourceId;
+            return this;
+        }
+
+        public Builder setReverse(boolean reverse) {
+            mParams.reverse = reverse;
+            return this;
+        }
+
+        public CircleProgressView create() {
+            CircleProgressView view = new CircleProgressView(mContext);
+            view.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            mParams.apply(view);
+            return view;
+        }
+    }
+
+    public static class ProgressViewParams {
+        long progressTotalTime;// 一共转的时间,毫秒数
+        int progressTotal;
+        int progressImageResource;
+        int progressBackgroundResource;
+        boolean reverse;
+
+        void apply(CircleProgressView view) {
+            view.setProgress(progressTotalTime, progressTotal);
+            view.setProgressBackgroundResource(progressBackgroundResource);
+            view.setProgressImageResource(progressImageResource);
+            view.setReverse(reverse);
+        }
+    }
 }
