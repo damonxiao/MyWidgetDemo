@@ -1,8 +1,8 @@
 # MyWidgetDemo
 自定义的控件集的DEMO
 
-＃＃ 1. CircleProgressView，自定义的圆形ProgressView
-＃＃＃ 使用方式，Builder模式，Demo代码如下
+## 1. CircleProgressView，自定义的圆形ProgressView
+### 使用方式，Builder模式，Demo代码如下
 ```java
 private void testCircleProgressView() {
         CircleProgressView circleProgressView = new CircleProgressView.Builder(this)
